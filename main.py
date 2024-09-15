@@ -11,6 +11,7 @@ redcar_index = 3 #change?
 gameA = CarSlidingGame((6,6), doorIdx, coords, isTrucks, directions)
 heur_choice = 1
 print(gameA)
+# 14?
 
 # coordsB = [(0,0), (0,1), (0,3), (1,2),
 #             (1,5), (2,3), (2,4), (3,1),

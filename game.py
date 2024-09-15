@@ -11,11 +11,11 @@ class CarSlidingGame:
         self.directions = directions # stores direction for each vehicle, 0 is right, 1 is up, 2 is left, 3 is down
 
     def _outsideGrid(self, i, j):
-        '''check whether a coordinate (i,j) is outside the grid.'''
+        '''check whether a coordinate (i,j) is outside the grid'''
         return not ((0<=i<=self.n) and (0<=j<=self.m))
 
     def takeAction(self, vehicleIdx, move_direction):
-        '''change the current game state to move vehicle (vehicleIdx) forward/backword according to (move_direction) '''
+        '''change the current game state to move vehicle (vehicleIdx) forward/backword according to (move_direction)'''
         delx, dely = self.unit_vectors[self.directions[vehicleIdx]]
         delx *= move_direction
         dely *= move_direction
@@ -90,10 +90,17 @@ class CarSlidingGame:
 
     def h2(self):
         '''calculate heuristic 2: number of cells between red car and door + number of those that are occupied'''
+        grid = self.createGrid()
+
+        # find the number of cells between the red car and door
         if self.directions[self.redCarIdx] == 1:
-            cost = (self.coords[self.redCarIdx][0] - 1)
-            
+            redCarDistance = (self.coords[self.redCarIdx][0] - 1)
         else:
-            cost = (self.coords[self.redCarIdx][0])
-        
+            redCarDistance = (self.coords[self.redCarIdx][0])
+
+        cost = redCarDistance
+        # check how many of the counted cells are occupied
+        for i in range(redCarDistance):
+            if grid[i][self.doorCol] != ' ':
+                cost += 1
         return cost
