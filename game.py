@@ -53,9 +53,13 @@ class CarSlidingGame:
         '''check if the game state has a conflict (cars overlapping or moving out of the grid)'''
         try:
             self.createGrid()
-            return True
-        except ValueError:
             return False
+        except Exception as e:
+            if isinstance(e, ValueError):
+                return True
+            else:
+                print('ERROR:', e)
+                return True
 
     def at_goal_state(self):
         '''checks if the current state is a goal state (red car is at the door)'''

@@ -50,7 +50,7 @@ q.put((heuristic_cost, coords))
 loop_ct = 0
 while q:
     dist, coords = q.get()
-    # print(coords)
+    print(loop_ct)
 
     #check if visited:
     if tuple(coords) in visited:
@@ -76,12 +76,14 @@ while q:
         thisConfig.takeAction(vehicle_index, move_direction)
         print(thisConfig.coords)
         # check visited
+        print('checking for visited')
         if tuple(thisConfig.coords) in visited:
             #undo here
             thisConfig.takeAction(vehicle_index, -move_direction)
             continue
 
         # check conflict
+        print('checking for conflict')
         if thisConfig.hasConflict():
             thisConfig.takeAction(vehicle_index, -move_direction)
             continue
@@ -89,10 +91,12 @@ while q:
         #calculating new heuristics:
         heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 
+        print('adding to queue')
         q.put((dist - parent_heuristic_cost + 1 + heuristic_cost, thisConfig.coords))
         
         # undo the action taken so we can re-use 'thisConfig' to find future state neighbours
         thisConfig.takeAction(vehicle_index, -move_direction)
+        
 
     loop_ct += 1
     
