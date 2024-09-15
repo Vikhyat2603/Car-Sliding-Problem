@@ -12,7 +12,7 @@ class CarSlidingGame:
 
     def _outsideGrid(self, i, j):
         '''check whether a coordinate (i,j) is outside the grid'''
-        return not ((0<=i<=self.n) and (0<=j<=self.m))
+        return not ((0<=i<self.n) and (0<=j<self.m))
 
     def takeAction(self, vehicleIdx, move_direction):
         '''change the current game state to move vehicle (vehicleIdx) forward/backword according to (move_direction)'''
@@ -30,7 +30,7 @@ class CarSlidingGame:
             direction = self.directions[v_i]
 
             # if the trunk coordinate is already occupied by another vehicle, conflict found
-            if grid[x][y] != ' ':
+            if self._outsideGrid(x, y) or (grid[x][y] != ' '):
                 raise ValueError("Found vehicle Conflict in grid")
             grid[x][y] = chr(65+v_i) # place upper case letter corresponding to vehicle index, as the trunk marker
 
