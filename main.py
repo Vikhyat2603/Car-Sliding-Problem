@@ -7,7 +7,7 @@ n = len(coords)
 isTrucks = [0, 0, 0, 1, 0, 0, 1, 0]
 directions = [3, 0, 0, 2, 2, 1, 2, 1]
 doorIdx = 5
-redCarIdx = 3 #change?
+redCarIdx = 7 #change?
 gameA = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directions)
 heuristic_choice = 1
 print(gameA)
@@ -36,22 +36,24 @@ def find_path(state):
     #path.append(state)
     while state is not None:
         path.append(state)
-        state = parentDict[state]
+        state = parentDict[tuple(state)]
 
     path.reverse()
 
 q = PriorityQueue()
 visited = set()
-parentDict = dict() # key: state (list of coords), value: cheapest parent state of the given state
+parentDict = {tuple(coords): None} # key: state (list of coords), value: cheapest parent state of the given state
 # queue element format: (expected f(n)=cost from start to goal through state n, state)
 thisConfig = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directions)
 heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 q.put((heuristic_cost, coords))
 loop_ct = 0
+
 while not q.empty():
+    
     # print('getting queue element from', q.qsize())
     dist, coords = q.get()
-    print(loop_ct)
+    #print(loop_ct)
 
     #check if visited:
     if tuple(coords) in visited:
@@ -74,10 +76,12 @@ while not q.empty():
         #calculating current heuristics:
         parent_heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 
+        parent_coords = coords[:]
+
         thisConfig.takeAction(vehicle_index, move_direction)
-        print(thisConfig.coords)
+        #print(thisConfig.coords)
         # check visited
-        print('checking if child visited')
+        #print('checking if child visited')
         if tuple(thisConfig.coords) in visited:
             #undo here
             thisConfig.takeAction(vehicle_index, -move_direction)
@@ -93,7 +97,8 @@ while not q.empty():
         heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 
         print('adding to queue')
-        q.put((dist - parent_heuristic_cost + 1 + heuristic_cost, thisConfig.coords))
+        parentDict[tuple(thisConfig.coords[:])] = tuple(parent_coords)
+        q.put((dist - parent_heuristic_cost + 1 + heuristic_cost, thisConfig.coords[:]))
         
         # undo the action taken so we can re-use 'thisConfig' to find future state neighbours
         thisConfig.takeAction(vehicle_index, -move_direction)
