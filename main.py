@@ -48,7 +48,8 @@ thisConfig = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directi
 heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 q.put((heuristic_cost, coords))
 loop_ct = 0
-while q:
+while not q.empty():
+    # print('getting queue element from', q.qsize())
     dist, coords = q.get()
     print(loop_ct)
 
@@ -76,7 +77,7 @@ while q:
         thisConfig.takeAction(vehicle_index, move_direction)
         print(thisConfig.coords)
         # check visited
-        print('checking for visited')
+        print('checking if child visited')
         if tuple(thisConfig.coords) in visited:
             #undo here
             thisConfig.takeAction(vehicle_index, -move_direction)
