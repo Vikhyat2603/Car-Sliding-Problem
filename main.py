@@ -11,7 +11,7 @@ redCarIdx = 3 #change?
 gameA = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directions)
 heuristic_choice = 1
 print(gameA)
-# 14?
+# 14 moves?
 
 # coordsB = [(0,0), (0,1), (0,3), (1,2),
 #             (1,5), (2,3), (2,4), (3,1),
