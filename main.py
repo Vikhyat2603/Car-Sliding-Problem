@@ -1,39 +1,39 @@
 from game import CarSlidingGame
 from queue import PriorityQueue
 
-coords = [(0,3), (0,4), (1,4), (2,3),
-              (2,5), (3,0), (4,4), (4,5)]
-n = len(coords)
-isTrucks = [0, 0, 0, 1, 0, 0, 1, 0]
-directions = [3, 0, 0, 2, 2, 1, 2, 1]
-doorIdx = 5
-redCarIdx = 7 #change?
-gameA = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directions)
-heuristic_choice = 1
-print(gameA)
-# 14 moves?
+# coords = [(0,3), (0,4), (1,4), (2,3),
+#               (2,5), (3,0), (4,4), (4,5)]
+# n = len(coords)
+# isTrucks = [0, 0, 0, 1, 0, 0, 1, 0]
+# directions = [3, 0, 0, 2, 2, 1, 2, 1]
+# doorIdx = 5
+# redCarIdx = 7
+# heuristic_choice = 2
+#### 14 moves?
 
-# coordsB = [(0,0), (0,1), (0,3), (1,2),
+# coords = [(0,0), (0,1), (0,3), (1,2),
 #             (1,5), (2,3), (2,4), (3,1),
 #             (4,4), (5,3)]
-# isTrucksB = [1, 1, 1, 0, 1, 0, 0, 0, 0, 0]
-# directionsB = [3, 3, 0, 1, 2, 2, 0, 2, 1, 2]
-# doorIdxB = 4
-# gameB = CarSlidingGame((6,6), doorIdxB, coordsB, isTrucksB, directionsB)
+# n = len(coords)
+# isTrucks = [1, 1, 1, 0, 1, 0, 0, 0, 0, 0]
+# directions = [3, 3, 0, 1, 2, 2, 0, 2, 1, 2]
+# doorIdx = 4
+# redCarIdx = 8
+# heuristic_choice = 1
 # print(gameB)
 
-# coordsC = [(0,2), (0,5), (1,4), (2,1),
+# coords = [(0,2), (0,5), (1,4), (2,1),
 #               (2,3), (3,0), (3,4), (3,5), (4,3)]
-# isTrucksC = [1, 1, 0, 1, 0, 1, 1, 0, 1]
-# directionsC = [3, 2, 0, 3, 1, 3, 2, 1, 0]
-# doorIdxC = 5
-# gameC = CarSlidingGame((6,6), doorIdxC, coordsC, isTrucksC, directionsC)
-# print(gameC)
+# n = len(coords)
+# isTrucks = [1, 1, 0, 1, 0, 1, 1, 0, 1]
+# directions = [3, 2, 0, 3, 1, 3, 2, 1, 0]
+# doorIdx = 5
+# redCarIdx = 7
+# heuristic_choice = 2
 
 path = []
 
 def find_path(state):
-    #path.append(state)
     while state is not None:
         path.append(state)
         state = parentDict[tuple(state)]
@@ -47,7 +47,7 @@ parentDict = {tuple(coords): None} # key: state (list of coords), value: cheapes
 thisConfig = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directions)
 heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 q.put((heuristic_cost, coords))
-loop_ct = 0
+n_goal_tested = 0
 
 while not q.empty():
     
@@ -62,6 +62,7 @@ while not q.empty():
     thisConfig = CarSlidingGame((6,6), doorIdx, redCarIdx, coords, isTrucks, directions)
 
     #check if goal state:
+    n_goal_tested += 1
     if thisConfig.at_goal_state():
         find_path(coords)
         break
@@ -79,16 +80,12 @@ while not q.empty():
         parent_coords = coords[:]
 
         thisConfig.takeAction(vehicle_index, move_direction)
-        #print(thisConfig.coords)
-        # check visited
-        #print('checking if child visited')
         if tuple(thisConfig.coords) in visited:
             #undo here
             thisConfig.takeAction(vehicle_index, -move_direction)
             continue
 
         # check conflict
-        print('checking for conflict')
         if thisConfig.hasConflict():
             thisConfig.takeAction(vehicle_index, -move_direction)
             continue
@@ -96,14 +93,15 @@ while not q.empty():
         #calculating new heuristics:
         heuristic_cost = (thisConfig.h1() if heuristic_choice == 1 else thisConfig.h2())
 
-        print('adding to queue')
         parentDict[tuple(thisConfig.coords[:])] = tuple(parent_coords)
         q.put((dist - parent_heuristic_cost + 1 + heuristic_cost, thisConfig.coords[:]))
         
         # undo the action taken so we can re-use 'thisConfig' to find future state neighbours
         thisConfig.takeAction(vehicle_index, -move_direction)
-        
-
-    loop_ct += 1
     
-print(len(path))
+# for step in path:
+#     thisConfig = CarSlidingGame((6,6), doorIdx, redCarIdx, list(step), isTrucks, directions)
+#     print(thisConfig)
+
+print('Path length: ', len(path)-1)
+print('Number of states goal tested:', n_goal_tested)
