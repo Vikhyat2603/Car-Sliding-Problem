@@ -89,8 +89,8 @@ while not q.empty():
     for action_i in range(2*n):
         thisState.coords = original_parent_coords[:]
 
-        vehicle_index = action_i//2 # which vehicle we chose to move
-        move_direction = 2*(action_i % 2)-1 # which direction we chose to move in
+        vehicle_index = action_i//2 # which vehicle we chose to move (0<=i<n)
+        move_direction = 2*(action_i % 2)-1 # which direction we chose to move in (+/-1)
 
         thisState.takeAction(vehicle_index, move_direction) # move vehicle in the given direction
 
