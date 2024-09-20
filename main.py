@@ -6,34 +6,33 @@ input_case = 'A' # initial state A, B, or C
 heuristic_choice = 1 # heuristic 1 or 2 or 0 for UCS
 
 # initialize variables based on which initial state we want to test
-match input_case:
-    case 'A':
-        coords = [(0,3), (0,4), (1,4), (2,3),
-                      (2,5), (3,0), (4,4), (4,5)]
-        n = len(coords)
-        isTrucks = [0, 0, 0, 1, 0, 0, 1, 0] # types of vehicles (0 for car, 1 for truck)
-        directions = [3, 0, 0, 2, 2, 1, 2, 1] # directions of vehicles (0 is right, 1 is up, 2 is left, 3 is down)
-        doorIdx = 5 # column index of door
-        redCarIdx = 7 # index of red car in the lists above
+if input_case == 'A':
+    coords = [(0,3), (0,4), (1,4), (2,3),
+                    (2,5), (3,0), (4,4), (4,5)]
+    n = len(coords)
+    isTrucks = [0, 0, 0, 1, 0, 0, 1, 0] # types of vehicles (0 for car, 1 for truck)
+    directions = [3, 0, 0, 2, 2, 1, 2, 1] # directions of vehicles (0 is right, 1 is up, 2 is left, 3 is down)
+    doorIdx = 5 # column index of door
+    redCarIdx = 7 # index of red car in the lists above
         
-    case 'B':
-        coords = [(0,0), (0,1), (0,3), (1,2),
-                    (1,5), (2,3), (2,4), (3,1),
-                    (4,4), (5,3)]
-        n = len(coords)
-        isTrucks = [1, 1, 1, 0, 1, 0, 0, 0, 0, 0]
-        directions = [3, 3, 0, 1, 2, 2, 0, 2, 1, 2]
-        doorIdx = 4
-        redCarIdx = 8
+elif input_case == 'A':
+    coords = [(0,0), (0,1), (0,3), (1,2),
+                (1,5), (2,3), (2,4), (3,1),
+                (4,4), (5,3)]
+    n = len(coords)
+    isTrucks = [1, 1, 1, 0, 1, 0, 0, 0, 0, 0]
+    directions = [3, 3, 0, 1, 2, 2, 0, 2, 1, 2]
+    doorIdx = 4
+    redCarIdx = 8
 
-    case 'C':
-        coords = [(0,2), (0,5), (1,4), (2,1),
-                    (2,3), (3,0), (3,4), (3,5), (4,3)]
-        n = len(coords)
-        isTrucks = [1, 1, 0, 1, 0, 1, 1, 0, 1]
-        directions = [3, 2, 0, 3, 1, 3, 2, 1, 0]
-        doorIdx = 5
-        redCarIdx = 7
+elif input_case == 'C':
+    coords = [(0,2), (0,5), (1,4), (2,1),
+                (2,3), (3,0), (3,4), (3,5), (4,3)]
+    n = len(coords)
+    isTrucks = [1, 1, 0, 1, 0, 1, 1, 0, 1]
+    directions = [3, 2, 0, 3, 1, 3, 2, 1, 0]
+    doorIdx = 5
+    redCarIdx = 7
 
 # if the red car is not pointing upward or downward, a solution is impossible
 if directions[redCarIdx] not in [1,3]:
