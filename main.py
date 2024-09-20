@@ -15,7 +15,7 @@ if input_case == 'A':
     doorIdx = 5 # column index of door
     redCarIdx = 7 # index of red car in the lists above
         
-elif input_case == 'A':
+elif input_case == 'B':
     coords = [(0,0), (0,1), (0,3), (1,2),
                 (1,5), (2,3), (2,4), (3,1),
                 (4,4), (5,3)]
