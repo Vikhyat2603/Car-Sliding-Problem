@@ -5,7 +5,7 @@ In main.py:
 - you can change the 'heuristic_choice' variable on line 6 to 0 for uniform-cost search, 1 for heuristic 1, or 2 for heuristic 2 to be used.
 
 Run main.py. 
-- If the puzzle is solvable, it will print a minimal-length sequence of states from start to target state, as well as the path-length and the number of states goal tested.
+- If the puzzle is solvable, it will print a minimal-length sequence of states from initial state to a goal state, as well as the path-length and the number of states that were goal-tested.
 - If the puzzle is unsolvable, it will tell you so.
 
 Interpreting the results:

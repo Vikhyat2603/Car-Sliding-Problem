@@ -97,7 +97,7 @@ while not q.empty():
         if tuple(thisState.coords) in visited:
             continue
 
-        # if this child state has a conflict (car overlap or out of bounds), continue
+        # if this child state has a conflict (vehicle overlap or out of bounds), continue
         if thisState.hasConflict():
             continue
 

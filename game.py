@@ -63,7 +63,7 @@ class GameState:
         return grid
 
     def hasConflict(self):
-        '''check and return True if the game state has a conflict (cars overlapping or moving out of the grid)'''
+        '''check and return True if the game state has a conflict (vehicles overlapping or moving out of the grid)'''
         try:
             self.createGrid()
             return False # if we can run createGrid without exceptions there's no conflict
@@ -118,6 +118,7 @@ class GameState:
             redCarDistance = (self.coords[self.redCarIdx][0])
 
         cost = redCarDistance
+        
         # check how many of the counted cells are occupied
         for i in range(redCarDistance):
             if grid[i][self.doorCol] != ' ':
